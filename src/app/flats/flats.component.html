@@ -1,0 +1,93 @@
+<div class="alert alert-primary" role="alert">
+  This page is ment to add flats in your community.
+</div>
+<div class="alert alert-error" role="alert" *ngIf="error">
+    {{errorMessage}}
+</div>
+
+<div class="row">
+  <div class="col-sm-12 col-md-4 col-lg-5">
+    <div class="card">
+      <div class="card-body">
+        <div class="clearfix">
+        <h5 class="card-title float-left">New Flat</h5>
+        <button class="btn btn-light float-right" type="button" data-toggle="collapse" 
+          data-target="#newFlatForm" aria-controls="newFlatForm"
+          aria-expanded="false" aria-label="Toggle newFlatForm">
+          <i class="fas fa-angle-down"></i>
+        </button>
+        </div>
+        <div id="newFlatForm" class="collapse navbar-collapse">  
+          <div class="form-group">
+            <label for="Flat No">Flat No</label>
+            <input type="text" class="form-control" id="flatNo"
+             aria-describedby="flatNoHelp" placeholder="Enter Flat Number" [(ngModel)]="flat.number">
+            <small id="flatNoHelp" class="form-text text-muted">Please enter the flat number</small>
+          </div>
+          <div class="form-group">
+            <label for="isOwner">Owner</label>
+            <select id="owner" class="form-control" aria-describedby="isOwnerHelp"  [(ngModel)]="flat.isOwner">
+              <option value="true">Yes </option>
+              <option value="false">No </option>
+            </select>
+            <small id="isOwnerHelp" class="form-text text-muted">Please select whether the current stay is by owner or not</small>
+          </div>
+          <div class="form-group">
+            <label for="ownerName">Owner Name</label>
+            <input type="text" class="form-control" id="ownerName" aria-describedby="ownerNameHelp" placeholder="Enter Owner Name"  [(ngModel)]="flat.ownerName">
+            <small id="ownerNameHelp" class="form-text text-muted">Please enter the flat Owner name</small>
+          </div>
+          <div class="form-group">
+            <label for="ownerPhNo">Owner Phone Number</label>
+            <input type="text" class="form-control" id="ownerPhNo" aria-describedby="ownerPhNoHelp" placeholder="Enter Owner Phone Number"  [(ngModel)]="flat.ownerPhNo">
+            <small id="ownerPhNoHelp" class="form-text text-muted">Please enter the Owner Phone number</small>
+          </div>
+          <div class="form-group">
+            <label for="residentName">Resident Name</label>
+            <input type="text" class="form-control" id="residentName" aria-describedby="residentNameHelp" placeholder="Enter Resident Name"  [(ngModel)]="flat.residentName">
+            <small id="residentNameHelp" class="form-text text-muted">Please enter the Resident name</small>
+          </div>
+          <div class="form-group">
+            <label for="residentPhNo">Resident Phone Number</label>
+            <input type="text" class="form-control" id="residentPhNo" aria-describedby="residentPhNoHelp" placeholder="Enter Resident Phone Number"  [(ngModel)]="flat.residentPhNo">
+            <small id="residentPhNoHelp" class="form-text text-muted">Please enter the Resident Phone number</small>
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="saveFlat()">Submit</button>
+          <button type="reset" class="btn btn-outline-secondary" (click)="clear()">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-8 col-lg-7" *ngIf="flats">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">List of Flats</h5>
+        <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Flat No</th>
+              <th scope="col">Owner Name</th>
+              <th scope="col">Owner Phone</th>
+              <th scope="col">Resident Name</th>
+              <th scope="col">Resident Phone</th>
+              <th scope="col">Added On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let flat of flats">
+              <th scope="row">{{flat.number}}</th>
+              <td>{{flat.ownerName}}</td>
+              <td>{{flat.ownerPhNo}}</td>
+              <td>{{flat.residentName}}</td>
+              <td>{{flat.residentPhNo}}</td>
+              <td>{{flat.dateStr}}</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

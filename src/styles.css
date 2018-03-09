@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+
+.footer {
+  width: 100%;
+  border-top:solid 1px #e2e2e2;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #efefef;
+  margin-top:20px;
+}
+
