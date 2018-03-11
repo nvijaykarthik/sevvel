@@ -7,6 +7,7 @@ import { ExpenceService } from '../expence/expence.service';
 import { Expence } from '../expence/expence.domains';
 import * as _ from 'underscore';
 import { MonthlyReport, MonthlyReportSummary } from './monthly-report.domain';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-monthly-report',
