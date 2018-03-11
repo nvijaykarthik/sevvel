@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Flats} from './flats.domains';
 import {FlatsService} from './flats.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-flats',
@@ -44,20 +45,29 @@ export class FlatsComponent implements OnInit {
     this.flatsService.getAllFlats()
     .subscribe(
       flats=>{
-        flats.forEach(f=>{
-          if(f.createdDate){
-            var dt=new Date(f.createdDate);
-            f.dateStr=dt.toDateString();
-          }
-        })
         this.flats=flats;
-
       },
       err=>{
         this.handleError(err);
       }
     )
   }
+
+  delete(flatno:string):void{
+    this.error=false;
+    console.log("Deleting  flat"+flatno);
+    this.flatsService.delete(flatno)
+    .subscribe(
+      flat=>{
+        console.log("Flat Deleted successfully");
+        this.getFlats();
+      },
+      err=>{
+        this.handleError(err);
+      }
+      
+    )
+}
 
   handleError(err:any):void{
     this.error=true;

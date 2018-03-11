@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; 
+
 import { AppComponent } from './app.component';
 import { FlatsComponent } from './flats/flats.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -12,6 +14,9 @@ import { ExpenceComponent } from './expence/expence.component';
 import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
 import { FlatsReportComponent } from './flats-report/flats-report.component';
 import { FlatsService } from './flats/flats.service';
+import { MaintenanceService } from './maintenance/maintenance.service';
+import { ExpenceService } from './expence/expence.service';
+
 const appRoutes: Routes = [
   { path: 'flats', component: FlatsComponent },
   { path: 'maintenance', component: MaintenanceComponent },
@@ -38,9 +43,11 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    Ng2SearchPipeModule
+
   ],
-  providers: [FlatsService],
+  providers: [FlatsService,MaintenanceService,ExpenceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

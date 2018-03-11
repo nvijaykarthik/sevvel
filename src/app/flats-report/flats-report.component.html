@@ -1,21 +1,39 @@
 <div class="alert alert-primary" role="alert">
-  This page is ment to add flats in your community.
+  This page give you the maintenance give by each flat in your community.
+</div>
+<div class="alert alert-danger" role="alert" *ngIf="error">
+    {{errorMessage}}
 </div>
 <div class="row">
-  <div class="col-sm-12 col-md-4 col-lg-5">
+  <div class="col-sm-12">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">New Flat</h5>
-        This is some text within a card body.
-      </div>
-    </div>
-
-  </div>
-  <div class="col-sm-12 col-md-8 col-lg-7">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">List of </h5>
-        This is some text within a card body.
+        <h5 class="card-title">Maintenance collected for Flats</h5>
+        <div class="form-group">
+            <label for="isOwner">Flat No</label>
+            <select class="form-control" id="flats" [(ngModel)]="flatNumber" (change)="getMaint()">
+                <option *ngFor="let flat of flats" [value]="flat.number">{{flat.number}}</option>
+              </select>
+            <small class="form-text text-muted">Please select Flat No</small>
+          </div>
+          <table class="table" *ngIf="maints">
+              <thead>
+                <tr>
+                  <th scope="col">Flat No</th>
+                  <th scope="col">Given on </th>
+                  <th scope="col">Amount : {{total}} </th>
+                  <th scope="col">Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let maint of maints | filter:filter; let i = index">
+                  <th scope="row">{{maint.flatNumber}}</th>
+                  <td>{{maint.date | date:'dd-MM-yyyy'}}</td>
+                  <td>{{maint.amount}}</td>
+                  <td>{{maint.comment}}</td>
+                </tr>
+              </tbody>
+            </table>
       </div>
     </div>
 

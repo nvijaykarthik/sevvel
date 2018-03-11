@@ -17,5 +17,6 @@ export class Urls{
 export const APIURLS={
     flats:"/api/flats",
     maintenance:"/api/maintenance",
-    expence:"/api/expence"
+    expence:"/api/expence",
+    totalCash:"/api/totalCash"
 }

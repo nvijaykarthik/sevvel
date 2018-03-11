@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Flats = require('../DB/FlatSchema')
+var Audit = require('../DB/Audit')
 
 var createFlat = function (req, res, next) {
     var flat = new Flats({
@@ -82,7 +83,18 @@ var findAflat = function (req, res, next) {
     })
 }
 var deleteAFlat = function (req, res, next) {
-    Flats.deleteOne({ "number": req.params.flatNumber }, function (err, flat) {
+    console.log(req.params._id);
+
+    Flats.findOne({ "_id": req.params._id }, function (err, flat) {
+        var audit = new Audit({
+            data:"Deleting Flat [" + JSON.stringify(flat)+"]",
+            component:"Flats",
+            createdDate: new Date()
+        })
+        audit.save();
+    });
+
+    Flats.deleteOne({ "_id": req.params._id }, function (err, flat) {
         if (err) {
             var response = {
                 errorCode: -1,
@@ -90,7 +102,7 @@ var deleteAFlat = function (req, res, next) {
             };
             res.status(500).json(response);
         }
-        res.status(200).json("flat");
+        res.status(200).json({message:"Deleted Successfully"});
     })
 }
 
@@ -98,7 +110,8 @@ module.exports = {
     createFlat: createFlat,
     getAllFlats: getAllFlats,
     findAflat: findAflat,
-    updateFlat: updateFlat
+    updateFlat: updateFlat,
+    deleteAFlat:deleteAFlat
 }
 
 /**

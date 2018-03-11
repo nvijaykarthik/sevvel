@@ -25,4 +25,21 @@ export class FlatsService {
     var url=Urls.getDomain().concat(APIURLS.flats);
     return this.http.post<Flats>(url,flat,{headers:httpOptions.headers});
   }
+  delete(flatno:string):Observable<any>{
+    var url=Urls.getDomain().concat(APIURLS.flats).concat("/").concat(flatno);
+    return this.http.delete<any>(url,{headers:httpOptions.headers});
+  }
+
+  async getAllFlatsAsync(): Promise<Flats[]> {
+    var url = Urls.getDomain().concat(APIURLS.flats);
+    const response = await this.http.get<Flats[]>(url).toPromise();
+    
+    return response;
+  }
+
+   getTotalCash(): Observable<any> {
+    var url = Urls.getDomain().concat(APIURLS.totalCash);
+    const response = this.http.get<any>(url);
+    return response;
+  }
 }

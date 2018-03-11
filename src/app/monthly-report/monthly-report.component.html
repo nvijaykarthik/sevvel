@@ -1,23 +1,105 @@
 <div class="alert alert-primary" role="alert">
-  This page is ment to add flats in your community.
+  This page is ment to View Monthly Report.
 </div>
+<div class="alert alert-danger" role="alert" *ngIf="error">
+  {{errorMessage}}
+</div>
+<div class="form-inline">
+  Year
+  <select class="form-control" [(ngModel)]="year">
+    <option *ngFor="let y of years" [value]="y">{{y}}</option>
+  </select>
+  Month
+  <select class="form-control" [(ngModel)]="month">
+    <option *ngFor="let m of months" [value]="m">{{m}}</option>
+  </select>
+  &nbsp;
+  <button class="btn btn-primary" (click)="submit()">Submit</button>
+</div>
+<hr/>
 <div class="row">
-  <div class="col-sm-12 col-md-4 col-lg-5">
+  <div class="col-sm-12 col-md-4 col-lg-4">
     <div class="card">
+        <div class="card-header bg-secondary">
+            Summary for {{month}}-{{year}}
+          </div>
       <div class="card-body">
-        <h5 class="card-title">New Flat</h5>
-        This is some text within a card body.
+          <dl class="row">
+              <dt class="col-sm-7">Maintenance Collected</dt>
+              <dd class="col-sm-5" [style.color]="monthlySummary.maintenanceCollection_Month<0?'red':'blue'">{{monthlySummary.maintenanceCollection_Month| currency:'INR'}}</dd>
+              <dt class="col-sm-7">Expence Made</dt>
+              <dd class="col-sm-5" [style.color]="monthlySummary.expenditure_Month<0?'red':'blue'">{{monthlySummary.expenditure_Month| currency:'INR'}}</dd>
+              <dt class="col-sm-7">Available Balance</dt>
+              <dd class="col-sm-5" [style.color]="monthlySummary.availableBalance_Month<0?'red':'blue'">{{monthlySummary.availableBalance_Month| currency:'INR'}}</dd>
+          </dl>
+          <h5 [style.color]="'blue'">Year : {{year}}</h5>
+          <dl class="row">
+              <dt class="col-sm-7">Maintenance Collected</dt>
+              <dd class="col-sm-5" [style.color]="monthlySummary.maintenanceCollection_Year<0?'red':'blue'">{{monthlySummary.maintenanceCollection_Year| currency:'INR'}}</dd>
+              <dt class="col-sm-7">Expence Made</dt>
+              <dd class="col-sm-5" [style.color]="monthlySummary.expenditure_Year<0?'red':'blue'">{{monthlySummary.expenditure_Year| currency:'INR'}}</dd>
+              <dt class="col-sm-7">Available Balance</dt>
+              <dd class="col-sm-5" [style.color]="monthlySummary.availableBalance_Year<0?'red':'blue'">{{monthlySummary.availableBalance_Year| currency:'INR'}}</dd>
+          </dl>
+          
+          <h5 [style.color]="'blue'">Total Available Cash: {{monthlySummary.balance | currency:'INR'}}</h5>
       </div>
     </div>
-
   </div>
-  <div class="col-sm-12 col-md-8 col-lg-7">
+  <div class="col-sm-12 col-md-4 col-lg-4">
     <div class="card">
+        <div class="card-header bg-primary">
+            Details of Maintenance  {{month}}-{{year}}
+        </div>
       <div class="card-body">
-        <h5 class="card-title">List of </h5>
-        This is some text within a card body.
+        <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Flat No</th>
+                  <th scope="col" style="width:20px;">Date </th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let maint of maintRepo" [ngClass]="maint.amount?'':'bg-danger'" >
+                  <td >{{maint.flatNo}}</td>
+                  <td nowrap>{{maint.date | date:'dd-MMM'}}</td>
+                  <td>{{maint.amount}}</td>
+                  <td>{{maint.comment}}</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
       </div>
     </div>
-
   </div>
+  <div class="col-sm-12 col-md-4 col-lg-4">
+      <div class="card">
+          <div class="card-header bg-info">
+              Details of Expence  {{month}}-{{year}}
+          </div>
+        <div class="card-body">
+          <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let exp of expens">
+                    <td nowrap>{{exp.date | date:'dd-MMM'}}</td>
+                    <td>{{exp.amount}}</td>
+                    <td>{{exp.comment}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+        </div>
+      </div>
+    </div>
 </div>

@@ -1,23 +1,76 @@
 <div class="alert alert-primary" role="alert">
-  This page is ment to add flats in your community.
-</div>
-<div class="row">
-  <div class="col-sm-12 col-md-4 col-lg-5">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">New Flat</h5>
-        This is some text within a card body.
+    This page is ment to add Expences in your community.
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="error">
+    {{errorMessage}}
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="clearfix">
+            <h5 class="card-title float-left">New Expence</h5>
+            <button class="btn btn-light float-right" type="button" data-toggle="collapse" data-target="#newmaintForm" aria-controls="newmaintForm"
+              aria-expanded="false" aria-label="Toggle newmaintForm">
+              <i class="fas fa-angle-down"></i>
+            </button>
+          </div>
+          <div id="newmaintForm" class="collapse navbar-collapse">
+            <div class="form-group">
+              <label for="maint No">Date</label>
+              <input type="date" id="datepicker" class="form-control"
+               placeholder="yyyy-mm-dd"
+                [(ngModel)]="expen.date">
+              <small class="form-text text-muted">Please enter the Date in dd-mm-yyyy</small>
+            </div>
+            <div class="form-group">
+              <label for="ownerName">Expence Amount</label>
+              <input type="text" class="form-control" id="ownerName" placeholder="Enter Maintenance Amount" [(ngModel)]="expen.amount">
+              <small class="form-text text-muted">Please enter the maintenance Amount</small>
+            </div>
+            <div class="form-group">
+              <label for="ownerPhNo">Comment</label>
+              <textarea row="3" class="form-control" id="ownerPhNo" placeholder="Please add comment" [(ngModel)]="expen.comment">
+              </textarea>
+                <small class="form-text text-muted">Please enter Comment if any</small>
+              </div>
+              <button type="submit" class="btn btn-primary" (click)="save()">Submit</button>
+              <button type="reset" class="btn btn-outline-secondary" (click)="clear()">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-8 col-lg-7" *ngIf="expens">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">List of Expences : Expenditure so far : {{total}} </h5>
+            <input class="form-control" type="text" name="search" [(ngModel)]="filter"> 
+            <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Given on </th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Comment</th>
+                  <th scope="col">option</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let expen of expens | filter:filter; let i = index">
+                  <td>{{expen.date | date:'dd-MM-yyyy'}}</td>
+                  <td>{{expen.amount}}</td>
+                  <td>{{expen.comment}}</td>
+                  <td>
+                      <button class="btn btn-sm btn-danger" (click)="delete(expen._id)" >
+                        <i class="fa fa-trash"></i>
+                      </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-  </div>
-  <div class="col-sm-12 col-md-8 col-lg-7">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">List of </h5>
-        This is some text within a card body.
-      </div>
-    </div>
-
-  </div>
-</div>

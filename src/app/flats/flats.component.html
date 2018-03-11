@@ -1,7 +1,7 @@
 <div class="alert alert-primary" role="alert">
   This page is ment to add flats in your community.
 </div>
-<div class="alert alert-error" role="alert" *ngIf="error">
+<div class="alert alert-danger" role="alert" *ngIf="error">
     {{errorMessage}}
 </div>
 
@@ -62,6 +62,7 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">List of Flats</h5>
+        <input class="form-control" type="text" name="search" [(ngModel)]="filter"> 
         <div class="table-responsive">
         <table class="table">
           <thead>
@@ -72,22 +73,27 @@
               <th scope="col">Resident Name</th>
               <th scope="col">Resident Phone</th>
               <th scope="col">Added On</th>
+              <th scope="col">option</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let flat of flats">
+            <tr *ngFor="let flat of flats | filter:filter; let i = index">
               <th scope="row">{{flat.number}}</th>
               <td>{{flat.ownerName}}</td>
               <td>{{flat.ownerPhNo}}</td>
               <td>{{flat.residentName}}</td>
               <td>{{flat.residentPhNo}}</td>
-              <td>{{flat.dateStr}}</td>
+              <td>{{flat.createdDate | date:'dd-MM-yyyy'}}</td>
+              <td>
+                  <button class="btn btn-sm btn-danger" (click)="delete(flat._id)" >
+                    <i class="fa fa-trash"></i>
+                  </button>
+              </td>
             </tr>
           </tbody>
         </table>
         </div>
       </div>
     </div>
-
   </div>
 </div>
