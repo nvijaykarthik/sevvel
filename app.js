@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'ui')));
 if(process.env.NODE_ENV!=='production'){
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -35,7 +35,7 @@ if(process.env.NODE_ENV!=='production'){
 app.use('/api', index);
 
 // Send all other requests to the Angular app
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'ui/index.html'));
 });
 
