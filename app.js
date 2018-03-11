@@ -35,7 +35,7 @@ if(process.env.NODE_ENV!=='production'){
 app.use('/api', index);
 
 // Send all other requests to the Angular app
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'ui/index.html'));
 });
 
