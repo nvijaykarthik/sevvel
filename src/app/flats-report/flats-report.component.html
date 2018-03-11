@@ -26,7 +26,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let maint of maints | filter:filter; let i = index">
+                <tr *ngFor="let maint of pagedItems | filter:filter; let i = index">
                   <th scope="row">{{maint.flatNumber}}</th>
                   <td>{{maint.date | date:'dd-MM-yyyy'}}</td>
                   <td>{{maint.amount}}</td>
@@ -34,6 +34,11 @@
                 </tr>
               </tbody>
             </table>
+            <ul class="pagination">
+              <li *ngFor="let page of pager.pages" class="page-item" [ngClass]="{active:pager.currentPage === page}">
+                <a class="page-link" (click)="setPage(page)" >{{page}}</a>
+            </li>
+          </ul>
       </div>
     </div>
 

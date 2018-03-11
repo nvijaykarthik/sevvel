@@ -91,30 +91,6 @@ var getMaintByMonth = function (req, res, next) {
         });
 }
 
-var getMaintByTenture = function (req, res, next) {
-    var year = parseInt(req.params.year);
-    var month = 7
-    var firstDay = new Date(year, month - 1, 1)
-    var lastDay = new Date(year+1, month, 1)
-    console.log("firstDay" + firstDay + "," + "lastDay" + lastDay)
-    Maintenances.find(
-        {
-            date: {
-                $gte: firstDay,
-                $lte: lastDay
-            }
-        }
-        , function (err, maint) {
-            if (err) {
-                var response = {
-                    errorCode: -1,
-                    errorMessage: err
-                };
-                res.status(500).json(response)
-            }
-            res.status(200).json(maint)
-        });
-}
 
 var getMaintByFlat = function (req, res, next) {
     Maintenances.find({ "flatNumber": req.params.flatNumber }, function (err, maint) {
@@ -160,5 +136,5 @@ module.exports = {
     getMaintByFlat: getMaintByFlat,
     updateMaint: updateMaint,
     deleteMaint:deleteMaint,
-    getMaintByTenture:getMaintByTenture
+
 }

@@ -4,6 +4,7 @@ import { MaintenanceService } from './maintenance.service';
 import { FlatsService } from '../flats/flats.service';
 import { Flats } from '../flats/flats.domains';
 import { DatePipe } from '@angular/common';
+import { PagerService } from '../app.pager.service';
 
 @Component({
   selector: 'app-maintenance',
@@ -18,7 +19,14 @@ export class MaintenanceComponent implements OnInit {
   public error:boolean=false;
   public errorMessage:String="";
   public total:number;
-  constructor(private maintenanceService:MaintenanceService,private flatsService:FlatsService) { }
+
+  // pager object
+  pager: any = {};
+ 
+  // paged items
+  pagedItems: any[];
+
+  constructor(private maintenanceService:MaintenanceService,private flatsService:FlatsService,private pagerService: PagerService) { }
   
 
   ngOnInit() {
@@ -39,7 +47,7 @@ export class MaintenanceComponent implements OnInit {
     .subscribe(
       flats=>{
         this.flats=flats;
-        
+        this.setPage(1);
       },
       err=>{
         this.handleError(err);
@@ -92,5 +100,17 @@ delete(_id:string):void{
   handleError(err:any):void{
     this.error=true;
     this.errorMessage=JSON.stringify(err);
+  }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+        return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.maints.length, page);
+
+    // get current page of items
+    this.pagedItems = this.maints.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 }

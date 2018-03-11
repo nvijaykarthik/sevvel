@@ -24,5 +24,6 @@ router.get('/expence/:year/:month',expences.getExpenByMonth);
 router.put('/expence', expences.updateExpen);
 router.delete("/expence/:_id",expences.deleteExpence);
 router.get('/totalCash',common.getTotalCashInHand);
+//router.get('/totalCashByTenture/:year/:month',common.getMaintByTenture);
 
 module.exports = router;

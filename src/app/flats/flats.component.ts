@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Flats} from './flats.domains';
 import {FlatsService} from './flats.service';
 import { DatePipe } from '@angular/common';
+import { PagerService } from '../app.pager.service';
 
 @Component({
   selector: 'app-flats',
@@ -15,7 +16,13 @@ export class FlatsComponent implements OnInit {
   public error:boolean=false;
   public errorMessage:String="";
 
-  constructor(private flatsService:FlatsService) { }
+   // pager object
+   pager: any = {};
+ 
+   // paged items
+   pagedItems: any[];
+
+  constructor(private flatsService:FlatsService,private pagerService: PagerService) { }
 
   ngOnInit() {
     this.error=false;
@@ -46,6 +53,7 @@ export class FlatsComponent implements OnInit {
     .subscribe(
       flats=>{
         this.flats=flats;
+        this.setPage(1);
       },
       err=>{
         this.handleError(err);
@@ -75,4 +83,15 @@ export class FlatsComponent implements OnInit {
     console.log(err);
   }
 
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+        return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.flats.length, page);
+
+    // get current page of items
+    this.pagedItems = this.flats.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
 }

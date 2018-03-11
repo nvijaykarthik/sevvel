@@ -57,7 +57,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let expen of expens | filter:filter; let i = index">
+                <tr *ngFor="let expen of pagedItems | filter:filter; let i = index">
                   <td>{{expen.date | date:'dd-MM-yyyy'}}</td>
                   <td>{{expen.amount}}</td>
                   <td>{{expen.comment}}</td>
@@ -69,6 +69,11 @@
                 </tr>
               </tbody>
             </table>
+            <ul class="pagination">
+              <li *ngFor="let page of pager.pages" class="page-item" [ngClass]="{active:pager.currentPage === page}">
+                <a class="page-link" (click)="setPage(page)" >{{page}}</a>
+            </li>
+          </ul>
             </div>
           </div>
         </div>
