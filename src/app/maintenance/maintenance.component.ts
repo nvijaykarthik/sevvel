@@ -91,6 +91,6 @@ delete(_id:string):void{
 }
   handleError(err:any):void{
     this.error=true;
-    this.errorMessage=err;
+    this.errorMessage=JSON.stringify(err);
   }
 }
