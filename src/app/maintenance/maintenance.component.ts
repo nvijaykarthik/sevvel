@@ -29,6 +29,10 @@ export class MaintenanceComponent implements OnInit {
    
   }
 
+  clear():void{
+    this.maint= new Maintenance();
+  }
+
   getFlats():void{
     this.error=false;
     this.flatsService.getAllFlats()

@@ -23,7 +23,9 @@ export class ExpenceComponent implements OnInit {
     this.get();
   }
 
-
+  clear():void{
+    this.expen = new Expence();
+  }
   save(): void {
     this.error = false;
     this.expenceService.save(this.expen)
