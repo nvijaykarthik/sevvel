@@ -36,10 +36,10 @@ export class MonthlyReportComponent implements OnInit {
 
   ngOnInit() {
 
-    for (let index = 1; index < 12; index++) {
+    for (let index = 1; index <= 12; index++) {
       this.months.push(index);
     }
-    for (let index = 2015; index < 2045; index++) {
+    for (let index = 2015; index < 2025; index++) {
       this.years.push(index);
     }
   }
