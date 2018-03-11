@@ -26,23 +26,22 @@
       <div class="card-body">
           <dl class="row">
               <dt class="col-sm-7">Maintenance Collected</dt>
-              <dd class="col-sm-5" [style.color]="monthlySummary.maintenanceCollection_Month<0?'red':'blue'">{{monthlySummary.maintenanceCollection_Month| currency:'INR'}}</dd>
+              <dd class="col-sm-5" [style.color]="monthlySummary.maintenanceCollection_Month<0?'red':'#000099'">{{monthlySummary.maintenanceCollection_Month| currency:'INR'}}</dd>
               <dt class="col-sm-7">Expence Made</dt>
-              <dd class="col-sm-5" [style.color]="monthlySummary.expenditure_Month<0?'red':'blue'">{{monthlySummary.expenditure_Month| currency:'INR'}}</dd>
+              <dd class="col-sm-5" [style.color]="monthlySummary.expenditure_Month<0?'red':'#000099'">{{monthlySummary.expenditure_Month| currency:'INR'}}</dd>
               <dt class="col-sm-7">Available Balance</dt>
-              <dd class="col-sm-5" [style.color]="monthlySummary.availableBalance_Month<0?'red':'blue'">{{monthlySummary.availableBalance_Month| currency:'INR'}}</dd>
+              <dd class="col-sm-5" [style.color]="monthlySummary.availableBalance_Month<0?'red':'#000099'">{{monthlySummary.availableBalance_Month| currency:'INR'}}</dd>
           </dl>
-          <h5 [style.color]="'blue'">Year : {{year}}</h5>
+         <!--  <h5 [style.color]="'#000099'">Year : {{year}}</h5>
           <dl class="row">
               <dt class="col-sm-7">Maintenance Collected</dt>
-              <dd class="col-sm-5" [style.color]="monthlySummary.maintenanceCollection_Year<0?'red':'blue'">{{monthlySummary.maintenanceCollection_Year| currency:'INR'}}</dd>
+              <dd class="col-sm-5" [style.color]="monthlySummary.maintenanceCollection_Year<0?'red':'#000099'">{{monthlySummary.maintenanceCollection_Year| currency:'INR'}}</dd>
               <dt class="col-sm-7">Expence Made</dt>
-              <dd class="col-sm-5" [style.color]="monthlySummary.expenditure_Year<0?'red':'blue'">{{monthlySummary.expenditure_Year| currency:'INR'}}</dd>
+              <dd class="col-sm-5" [style.color]="monthlySummary.expenditure_Year<0?'red':'#000099'">{{monthlySummary.expenditure_Year| currency:'INR'}}</dd>
               <dt class="col-sm-7">Available Balance</dt>
-              <dd class="col-sm-5" [style.color]="monthlySummary.availableBalance_Year<0?'red':'blue'">{{monthlySummary.availableBalance_Year| currency:'INR'}}</dd>
-          </dl>
-          
-          <h5 [style.color]="'blue'">Total Available Cash: {{monthlySummary.balance | currency:'INR'}}</h5>
+              <dd class="col-sm-5" [style.color]="monthlySummary.availableBalance_Year<0?'red':'#000099'">{{monthlySummary.availableBalance_Year| currency:'INR'}}</dd>
+          </dl> -->
+          <h5 [style.color]="'#000099'">Total Available Cash: {{monthlySummary.balance | currency:'INR'}}</h5>
       </div>
     </div>
   </div>

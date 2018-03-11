@@ -102,6 +102,6 @@ export class MonthlyReportComponent implements OnInit {
   }
   handleError(err:any):void{
     this.error=true;
-    this.errorMessage=err;
+    this.errorMessage=JSON.stringify(err);
   }
 }
