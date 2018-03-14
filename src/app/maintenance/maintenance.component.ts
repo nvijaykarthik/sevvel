@@ -99,7 +99,7 @@ delete(_id:string):void{
 }
   handleError(err:any):void{
     this.error=true;
-    this.errorMessage=JSON.stringify(err);
+    this.errorMessage = "Error calling the service";
   }
 
   setPage(page: number) {

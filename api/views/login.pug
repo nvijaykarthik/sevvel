@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  .row
+    .col-md-12
+      h2.text-center Login To Sevvel
+      .row
+        .col-md-6.col-sm-6.mx-auto
+          .card            
+            .card-body
+              h3.card-title Login
+              if error
+                .alert.alert-danger(role="alert") #{errorMessage}
+              form.form(role="form",method="POST",action="/user/login")
+                .form-group
+                  label.sr-only(for="userId") User Id
+                  .input-group.mb-2.mr-sm-2.mb-sm-0
+                    .input-group-addon(style="width: 2.6rem",class="bg-secondary")
+                      i.fa.fa-user
+                    input.form-control(type="text",name="userId",id="userId",placeholder="user id",required,autofocus)
+                .form-group
+                  label.sr-only(for="password") Password
+                  .input-group.mb-2.mr-sm-2.mb-sm-0
+                    .input-group-addon(style="width: 2.6rem",class="bg-secondary")
+                      i.fa.fa-key
+                    input.form-control(type="password",name="password",id="password",placeholder="password",required,autofocus)  
+                button.btn.btn-success.float-right(type="submit",id="btnLogin") 
+                  i.fa.fa-lock 
+                  span &nbsp; Login  

@@ -61,7 +61,7 @@ export class FlatsReportComponent implements OnInit {
   }
   handleError(err:any):void{
     this.error=true;
-    this.errorMessage=JSON.stringify(err);
+    this.errorMessage = "Error calling the service";
   }
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {
