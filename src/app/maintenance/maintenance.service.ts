@@ -4,7 +4,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Maintenance } from './Maintenance.domains';
+import { Maintenance, Tenure } from './Maintenance.domains';
 import { Urls, APIURLS } from '../app.constants';
 
 const httpOptions = {
@@ -21,9 +21,17 @@ export class MaintenanceService {
     return this.http.get<Maintenance[]>(url);
   }
 
-  save(maint:Maintenance):Observable<Maintenance>{
-    var url=Urls.getDomain().concat(APIURLS.maintenance);
-    return this.http.post<Maintenance>(url,maint,{headers:httpOptions.headers});
+  create(tenure:Tenure):Observable<any>{
+    var url=Urls.getDomain().concat(APIURLS.maintenance)
+    .concat("/")
+    .concat(tenure.year.toString())
+    .concat("/")
+    .concat(tenure.month.toString())
+    .concat("/")
+    .concat(tenure.tenure.toString())
+    .concat("/")
+    .concat(tenure.amount.toString());
+    return this.http.put<any>(url,{headers:httpOptions.headers});
   }
   delete(_id:string):Observable<any>{
     var url=Urls.getDomain().concat(APIURLS.maintenance).concat("/").concat(_id);

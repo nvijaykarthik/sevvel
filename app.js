@@ -35,6 +35,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use('/user', users);
 
+/*
 app.use('/api', function (req, res, next) {
   var token = req.cookies['x-auth-token'] || req.body.token || req.query.token || req.headers['x-auth-token'];
   console.log("Authorization Token:" + token);
@@ -83,7 +84,7 @@ app.use(function (req, res, next) {
   }
 
 });
-
+*/
 app.use('/api', index);
 // Send all other requests to the Angular app
 app.get('*', (req, res) => {

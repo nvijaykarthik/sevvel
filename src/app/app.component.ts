@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { environment } from "../environments/environment";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,7 +14,10 @@ export class AppComponent {
       console.log("Access found")
     }else{
       console.log("Access not found")
-      window.location.href="/user";
+      if(environment.production){
+        window.location.href="/user";
+      }
+      
     }
   }
 

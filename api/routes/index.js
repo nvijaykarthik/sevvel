@@ -10,13 +10,17 @@ router.get("/flats",flats.getAllFlats);
 router.get("/flats/:flatNumber",flats.findAflat);
 router.put("/flats",flats.updateFlat);
 router.delete("/flats/:_id",flats.deleteAFlat)
-/** maintanence routers */
+/** maintanence routers 
 router.post('/maintenance', maintenances.addAMaint);
+
+router.get("/maintenance/:flatNumber",maintenances.getMaintByFlat);*/
 router.get('/maintenance', maintenances.getAllMaint);
-router.get("/maintenance/:flatNumber",maintenances.getMaintByFlat);
-router.get('/maintenance/:year/:month',maintenances.getMaintByMonth);
-router.put('/maintenance', maintenances.updateMaint);
-router.delete("/maintenance/:_id",maintenances.deleteMaint);
+router.get('/maintenance/tenure/:tenure',maintenances.findMaintenanceByTenure);
+router.get('/maintenance/:year/:month',maintenances.findMaintenanceByYearAndMonth);
+router.post('/maintenance/:maintId/:detailId', maintenances.updateMaintenanceDetails);
+router.get('/maintenance/:_id', maintenances.findMaintenanceDetails);
+router.delete("/maintenance/:_id",maintenances.deleteMaintenance);
+router.put("/maintenance/:year/:month/:tenure/:amount",maintenances.createMaintenance)
 
 router.post('/expence', expences.addAExpen);
 router.get('/expence', expences.getAllExpen);

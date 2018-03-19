@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Maintenance } from './maintenance.domains';
+import { Maintenance, Tenure } from './maintenance.domains';
 import { MaintenanceService } from './maintenance.service';
 import { FlatsService } from '../flats/flats.service';
 import { Flats } from '../flats/flats.domains';
@@ -19,7 +19,7 @@ export class MaintenanceComponent implements OnInit {
   public error:boolean=false;
   public errorMessage:String="";
   public total:number;
-
+  public tenure:Tenure;
   // pager object
   pager: any = {};
  
@@ -32,9 +32,7 @@ export class MaintenanceComponent implements OnInit {
   ngOnInit() {
     this.error=false;
     this.maint= new Maintenance();
-    this.get();
-    this.getFlats();
-   
+    this.tenure= new Tenure();   
   }
 
   clear():void{
@@ -56,11 +54,10 @@ export class MaintenanceComponent implements OnInit {
   }
   save():void{
     this.error=false;
-    this.maintenanceService.save(this.maint)
+    this.maintenanceService.create(this.tenure)
     .subscribe(
       maint=>{
         console.log("Saved successfully");
-        this.get();
       },
       err=>{
         this.handleError(err);

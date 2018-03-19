@@ -67,6 +67,7 @@
         <table class="table">
           <thead>
             <tr>
+              <th>Block</th>
               <th scope="col">Flat No</th>
               <th scope="col">Owner Name</th>
               <th scope="col">Owner Phone</th>
@@ -78,6 +79,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let flat of pagedItems | filter:filter; let i = index">
+              <td>{{flat.block}}</td>
               <th scope="row">{{flat.number}}</th>
               <td>{{flat.ownerName}}</td>
               <td>{{flat.ownerPhNo}}</td>
