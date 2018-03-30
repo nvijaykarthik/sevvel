@@ -21,17 +21,22 @@
               <label for="maint No">Date</label>
               <input type="date" id="datepicker" class="form-control"
                placeholder="yyyy-mm-dd"
-                [(ngModel)]="expen.date">
+                [(ngModel)]="expen.date" required>
               <small class="form-text text-muted">Please enter the Date in dd-mm-yyyy</small>
             </div>
             <div class="form-group">
+              <label for="ownerName">Tenure</label>
+              <input required type="number" class="form-control" id="tenure" placeholder="Enter the tenure" [(ngModel)]="expen.tenure">
+              <small class="form-text text-muted">Please enter the Tenure</small>
+            </div>
+            <div class="form-group">
               <label for="ownerName">Expence Amount</label>
-              <input type="text" class="form-control" id="ownerName" placeholder="Enter Maintenance Amount" [(ngModel)]="expen.amount">
+              <input required type="number" class="form-control" id="ownerName" placeholder="Enter Maintenance Amount" [(ngModel)]="expen.amount">
               <small class="form-text text-muted">Please enter the maintenance Amount</small>
             </div>
             <div class="form-group">
               <label for="ownerPhNo">Comment</label>
-              <textarea row="3" class="form-control" id="ownerPhNo" placeholder="Please add comment" [(ngModel)]="expen.comment">
+              <textarea required row="3" class="form-control" id="ownerPhNo" placeholder="Please add comment" [(ngModel)]="expen.comment">
               </textarea>
                 <small class="form-text text-muted">Please enter Comment if any</small>
               </div>
@@ -45,20 +50,25 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">List of Expences : Expenditure so far : {{total}} </h5>
-            <input class="form-control" type="text" name="search" [(ngModel)]="filter"> 
+          <div  class="input-group">
+            <input class="form-control" type="number" name="tenure" [(ngModel)]="tenure"/> 
+            <button class="btn btn-success" (click)="get()">GO</button>
+          </div>    
             <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
                   <th scope="col">Given on </th>
+                  <th scope="col">Tenure</th>
                   <th scope="col">Amount</th>
                   <th scope="col">Comment</th>
                   <th scope="col">option</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let expen of expens | filter:filter; let i = index">
+                <tr *ngFor="let expen of expens; let i = index">
                   <td>{{expen.date | date:'dd-MM-yyyy'}}</td>
+                  <td>{{expen.tenure}}</td>
                   <td>{{expen.amount}}</td>
                   <td>{{expen.comment}}</td>
                   <td>

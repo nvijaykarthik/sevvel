@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MaintenanceService } from '../maintenance/maintenance.service';
 import { FlatsService } from '../flats/flats.service';
-import { Maintenance } from '../maintenance/maintenance.domains';
+import { Maintenance, MaintenanceDetail} from '../maintenance/maintenance.domains';
 import { Flats } from '../flats/flats.domains';
 import { ExpenceService } from '../expence/expence.service';
 import { Expence } from '../expence/expence.domains';
 import * as _ from 'underscore';
 import { MonthlyReport, MonthlyReportSummary } from './monthly-report.domain';
 import { CurrencyPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-monthly-report',
@@ -22,13 +23,17 @@ export class MonthlyReportComponent implements OnInit {
   public years: number[] = [];
   public error: boolean = false;
   public errorMessage: String = "";
-  public maints: Maintenance[];
+  public maints: Maintenance;
+  public maintsTenure: MaintenanceDetail[]=[];
   public flats: Flats[];
   public expens: Expence[];
   public monthlyReport: MonthlyReport;
   public monthlyReports: any = {};
   public maintRepo: MonthlyReport[] = [];
   public monthlySummary: MonthlyReportSummary = new MonthlyReportSummary();
+  public tenure:number=3;
+  public maintenanceDetail:MaintenanceDetail[]=[]
+
   constructor(
     private maintenanceService: MaintenanceService,
     private flatsService: FlatsService,
@@ -47,11 +52,12 @@ export class MonthlyReportComponent implements OnInit {
  
 
   async submit(): Promise<void> {
-    this.maints= [];
+    this.maints= new Maintenance();
     this.flats= [];
     this.expens= [];
     this.maintRepo=[];
     this.error = false;
+    this.maintsTenure=[];
     if (typeof this.year === 'undefined' || this.year === null) {
       this.error = true;
       this.errorMessage = "Please select the year"
@@ -61,47 +67,42 @@ export class MonthlyReportComponent implements OnInit {
       this.errorMessage = "Please select the month"
     }
     
-    this.flats = await this.flatsService.getAllFlatsAsync();
     this.maints = await this.maintenanceService.getByMonth(this.year, this.month)
     this.expens = await this.expenceService.getByMonth(this.year, this.month)
-
-    this.flats=this.flats.filter(f=>f.number!=='Previous Balance');
-    console.log(this.flats);
-    this.flats.forEach(flat => {
-      this.monthlyReport = new MonthlyReport(flat.number);
-      this.monthlyReports[flat.number] = this.monthlyReport;
-    })
-    this.maints.forEach(maint => {
-      var monthrepo = this.monthlyReports[maint.flatNumber];
-      
-      monthrepo.amount = maint.amount;
-      monthrepo.date = maint.date;
-      monthrepo.comment = maint.comment;
-      this.monthlyReports[maint.flatNumber] = monthrepo;
-    });
-
-    for (var i in this.monthlyReports) {
-      var repo = this.monthlyReports[i];
-      this.maintRepo.push(repo);
-    }
-
-    this.monthlySummary.maintenanceCollection_Month = this.maints.reduce((sum, item) => sum + item.amount, 0);
-    this.monthlySummary.expenditure_Month = this.expens.reduce((sum, item) => sum + item.amount, 0);
-    this.monthlySummary.availableBalance_Month = this.monthlySummary.maintenanceCollection_Month - this.monthlySummary.expenditure_Month
-    this.flatsService.getTotalCash()
-    .subscribe(
-      cash=>{
-        this.monthlySummary.balance=cash.totalCash;
-      },
-      err=>
-      {
-        this.handleError(err);
-      }
-    );
-    console.log(this.monthlySummary.balance);
+    this.monthlySummary.expenditure_Month=this.expens.reduce((sum, item) => sum + item.amount, 0);
+    this.monthlySummary.maintenanceCollection_Month = this.maints.details
+                .filter(maint=>maint.status==='PAID')
+                .reduce((sum, item) => sum + item.amount, 0)
+    this.monthlySummary.pending=this.maints.details
+                .filter(maint=>maint.status==='PENDING')
+                .reduce((sum, item) => sum + item.amount, 0)
+    this.monthlySummary.availableBalance_Month=this.monthlySummary.maintenanceCollection_Month-this.monthlySummary.expenditure_Month;
   }
+
+  async getByTenure():Promise<void>{
+
+    var maintsTenure=await this.maintenanceService.getAsyncByTenure(this.tenure);
+    var expenseTenure=await this.expenceService.getAsyncByTenure(this.tenure);
+    console.log(maintsTenure);
+    for(var i=0;i<maintsTenure.length;i++){
+      maintsTenure[i].details.forEach(det=>{
+        this.maintsTenure.push(det);
+      })
+    }
+    console.log(this.maintsTenure);
+    this.monthlySummary.maintenanceCollection_Year = this.maintsTenure
+                .filter(maint=>maint.status==='PAID')
+                .reduce((sum, item) => sum + item.amount, 0)
+    this.monthlySummary.expenditure_Year=expenseTenure.reduce((sum, item) => sum + item.amount, 0);      
+    this.monthlySummary.pending_year=this.maintsTenure
+                .filter(maint=>maint.status==='PENDING')
+                .reduce((sum, item) => sum + item.amount, 0)
+    this.monthlySummary.availableBalance_Year=this.monthlySummary.maintenanceCollection_Year-this.monthlySummary.expenditure_Year;
+    this.maintenanceDetail=this.maintsTenure.filter(maint=>maint.status==='PENDING');
+  }
+
   handleError(err:any):void{
     this.error=true;
-    this.errorMessage=JSON.stringify(err);
+    this.errorMessage = "Error calling the service";
   }
 }

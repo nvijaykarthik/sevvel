@@ -67,6 +67,7 @@
         <table class="table">
           <thead>
             <tr>
+              <th>Block</th>
               <th scope="col">Flat No</th>
               <th scope="col">Owner Name</th>
               <th scope="col">Owner Phone</th>
@@ -77,7 +78,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let flat of flats | filter:filter; let i = index">
+            <tr *ngFor="let flat of pagedItems | filter:filter; let i = index">
+              <td>{{flat.block}}</td>
               <th scope="row">{{flat.number}}</th>
               <td>{{flat.ownerName}}</td>
               <td>{{flat.ownerPhNo}}</td>
@@ -92,6 +94,11 @@
             </tr>
           </tbody>
         </table>
+        <ul class="pagination">
+          <li *ngFor="let page of pager.pages" class="page-item" [ngClass]="{active:pager.currentPage === page}">
+            <a class="page-link" (click)="setPage(page)" >{{page}}</a>
+        </li>
+        </ul>
         </div>
       </div>
     </div>

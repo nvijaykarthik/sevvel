@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExpenceService } from './expence.service';
 import { Expence } from './expence.domains';
+import { PagerService } from '../app.pager.service';
 
 @Component({
   selector: 'app-expence',
@@ -15,7 +16,14 @@ export class ExpenceComponent implements OnInit {
   public error: boolean = false;
   public errorMessage: String = "";
 
-  constructor(private expenceService: ExpenceService) { }
+  public tenure:number=3;
+
+// pager object
+pager: any = {};
+ 
+// paged items
+pagedItems: any[];
+  constructor(private expenceService: ExpenceService,private pagerService: PagerService) { }
 
   ngOnInit() {
     this.error = false;
@@ -42,11 +50,12 @@ export class ExpenceComponent implements OnInit {
   }
   get(): void {
     this.error = false;
-    this.expenceService.getAll()
+    this.expenceService.getByTenure(this.tenure)
       .subscribe(
         expens => {
           this.expens = expens;
           this.total = this.expens.reduce((sum, item) => sum + item.amount, 0);
+          this.setPage(1);
         },
         err => {
           this.handleError(err);
@@ -71,6 +80,17 @@ export class ExpenceComponent implements OnInit {
   }
   handleError(err: any): void {
     this.error = true;
-    this.errorMessage = err;
+    this.errorMessage = "Error calling the service";
+  }
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+        return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.expens.length, page);
+
+    // get current page of items
+    this.pagedItems = this.expens.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 }

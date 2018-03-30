@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var flatSchema=new Schema({
     number:{type:String,require:true},
+    block:{type:String,require:true},
     isOwner:{type:Boolean,require:true},
     ownerName:{type:String,require:true},
     residentName:{type:String,require:true},

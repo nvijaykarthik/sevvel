@@ -1,5 +1,6 @@
 export class Flats{
     number:string="";
+    block:string="";
     isOwner:boolean;
     ownerName:string="";
     residentName:string="";

@@ -6,6 +6,8 @@ export class MonthlyReportSummary{
     expenditure_Year:number=0;
     availableBalance_Year:number=0;
     balance:any;
+    pending:number;
+    pending_year:number;
 }
 
 export class MonthlyReport{

@@ -16,6 +16,7 @@ import { FlatsReportComponent } from './flats-report/flats-report.component';
 import { FlatsService } from './flats/flats.service';
 import { MaintenanceService } from './maintenance/maintenance.service';
 import { ExpenceService } from './expence/expence.service';
+import { PagerService } from './app.pager.service';
 
 const appRoutes: Routes = [
   { path: 'flats', component: FlatsComponent },
@@ -47,7 +48,7 @@ const appRoutes: Routes = [
     Ng2SearchPipeModule
 
   ],
-  providers: [FlatsService,MaintenanceService,ExpenceService],
+  providers: [FlatsService,MaintenanceService,ExpenceService,PagerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

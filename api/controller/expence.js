@@ -7,6 +7,7 @@ var addAExpen = function (req, res, next) {
 
     var expence = new Expences({
         date: new Date(req.body.date),
+        tenure:req.body.tenure,
         amount: req.body.amount,
         comment: req.body.comment,
         createdDate: new Date()
@@ -27,6 +28,7 @@ var addAExpen = function (req, res, next) {
 var updateExpen = function (req, res, next) {
     var expence = new Expences({
         date: new Date(req.body.date),
+        tenure:req.body.tenure,
         amount: req.body.amount,
         comment: req.body.comment,
         createdDate: new Date()
@@ -35,6 +37,7 @@ var updateExpen = function (req, res, next) {
     Expences.findByIdAndUpdate(req.body._id,
         {
             date: new Date(req.body.date),
+            tenure:req.body.tenure,
             amount: req.body.amount,
             comment: req.body.comment,
             createdDate: new Date()
@@ -89,6 +92,24 @@ var getExpenByMonth = function (req, res, next) {
             res.status(200).json(expen)
         });
 }
+
+var getExpenByTenure = function (req, res, next) {
+    console.log("Expence by tenure");
+    Expences.find(
+        {
+            "tenure":req.params.tenure
+        }
+        , function (err, expen) {
+            if (err) {
+                var response = {
+                    errorCode: -1,
+                    errorMessage: err
+                };
+                res.status(500).json(response)
+            }
+            res.status(200).json(expen)
+        });
+}
 var deleteExpence = function (req, res, next) {
     console.log(req.params._id);
 
@@ -117,5 +138,6 @@ module.exports = {
     getExpenByMonth: getExpenByMonth,
     addAExpen: addAExpen,
     updateExpen: updateExpen,
-    deleteExpence:deleteExpence
+    deleteExpence:deleteExpence,
+    getExpenByTenure:getExpenByTenure
 }

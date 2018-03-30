@@ -3,6 +3,7 @@ import { MaintenanceService } from '../maintenance/maintenance.service';
 import { FlatsService } from '../flats/flats.service';
 import { Maintenance } from '../maintenance/maintenance.domains';
 import { Flats } from '../flats/flats.domains';
+import { PagerService } from '../app.pager.service';
 
 @Component({
   selector: 'app-flats-report',
@@ -17,7 +18,13 @@ export class FlatsReportComponent implements OnInit {
   public errorMessage: String = "";
   public flatNumber:string="";
   public total:number;
-  constructor(private maintenanceService:MaintenanceService,private flatsService:FlatsService) { }
+   // pager object
+   pager: any = {};
+ 
+   // paged items
+   pagedItems: any[];
+
+  constructor(private maintenanceService:MaintenanceService,private flatsService:FlatsService,private pagerService: PagerService) { }
 
   ngOnInit() {
    this.getFlats();
@@ -45,6 +52,7 @@ export class FlatsReportComponent implements OnInit {
         this.maints.sort(function(a:Maintenance,b:Maintenance){
           return (+b.date) - (+a.date);
         })
+        this.setPage(1);
       },
       err=>{
         this.handleError(err);
@@ -53,6 +61,17 @@ export class FlatsReportComponent implements OnInit {
   }
   handleError(err:any):void{
     this.error=true;
-    this.errorMessage=JSON.stringify(err);
+    this.errorMessage = "Error calling the service";
+  }
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+        return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.maints.length, page);
+
+    // get current page of items
+    this.pagedItems = this.maints.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 }
