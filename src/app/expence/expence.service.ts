@@ -21,6 +21,14 @@ export class ExpenceService {
     return this.http.get<Expence[]>(url);
   }
 
+   getByTenure(tenure:number): Observable<Expence[]> {
+    var url = Urls.getDomain().concat(APIURLS.expence)
+    .concat("/tenure/")
+    .concat(tenure.toString());
+    return this.http.get<Expence[]>(url);
+  }
+  
+
   save(maint:Expence):Observable<Expence>{
     var url=Urls.getDomain().concat(APIURLS.expence);
     return this.http.post<Expence>(url,maint,{headers:httpOptions.headers});
@@ -34,6 +42,13 @@ export class ExpenceService {
     var url=Urls.getDomain().concat(APIURLS.expence)
     .concat("/").concat(year.toString())
     .concat("/").concat(month.toString());
+    return this.http.get<Expence[]>(url).toPromise();
+  }
+
+  async getAsyncByTenure(tenure:number): Promise<Expence[]> {
+    var url = Urls.getDomain().concat(APIURLS.expence)
+    .concat("/tenure/")
+    .concat(tenure.toString());
     return this.http.get<Expence[]>(url).toPromise();
   }
 }

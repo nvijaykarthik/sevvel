@@ -21,6 +21,13 @@ export class MaintenanceService {
     return this.http.get<Maintenance[]>(url);
   }
 
+  getByTenure(selTenure:number):Observable<any[]>{
+    var url=Urls.getDomain()
+    .concat(APIURLS.maintenance)
+    .concat("/tenure/")
+    .concat(selTenure.toString());
+     return this.http.get<any[]>(url,{headers:httpOptions.headers});
+  }
   create(tenure:Tenure):Observable<any>{
     var url=Urls.getDomain().concat(APIURLS.maintenance)
     .concat("/")
@@ -43,11 +50,25 @@ export class MaintenanceService {
     return this.http.get<Maintenance[]>(url);
   }
 
-  async getByMonth(year:number,month:number):Promise<Maintenance[]>{
+  approve(mainId:string,detailId:string,details:any):Observable<any>{
+     var url = Urls.getDomain().concat(APIURLS.maintenance)
+     .concat("/").concat(mainId)
+     .concat("/").concat(detailId);
+     return this.http.post<any>(url,details,{headers:httpOptions.headers})
+  }
+  async getByMonth(year:number,month:number):Promise<Maintenance>{
     var url=Urls.getDomain().concat(APIURLS.maintenance)
     .concat("/").concat(year.toString())
     .concat("/").concat(month.toString());
-    const response= await this.http.get<Maintenance[]>(url).toPromise();
+    const response= await this.http.get<Maintenance>(url).toPromise();
     return response;
+  }
+
+  async getAsyncByTenure(selTenure:number):Promise<Maintenance[]>{
+    var url=Urls.getDomain()
+    .concat(APIURLS.maintenance)
+    .concat("/tenure/")
+    .concat(selTenure.toString());
+     return this.http.get<Maintenance[]>(url,{headers:httpOptions.headers}).toPromise();
   }
 }

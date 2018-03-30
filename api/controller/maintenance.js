@@ -204,7 +204,7 @@ var updateMaintenanceDetails = function (req, res, next) {
                     } else {
                         detail.comment = req.body.comment;
                         detail.updatedDate = new Date();
-                        detail.status = 'PAID';
+                        detail.status = req.body.status;
                         maint.save((err, maint) => {
                             if (err) {
                                 var response = {

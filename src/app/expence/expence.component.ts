@@ -15,6 +15,9 @@ export class ExpenceComponent implements OnInit {
   public total:number;
   public error: boolean = false;
   public errorMessage: String = "";
+
+  public tenure:number=3;
+
 // pager object
 pager: any = {};
  
@@ -47,7 +50,7 @@ pagedItems: any[];
   }
   get(): void {
     this.error = false;
-    this.expenceService.getAll()
+    this.expenceService.getByTenure(this.tenure)
       .subscribe(
         expens => {
           this.expens = expens;

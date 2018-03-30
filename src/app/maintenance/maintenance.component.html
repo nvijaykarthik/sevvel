@@ -19,54 +19,112 @@
             <th>Amount</th>
           </tr>
           <tr>
-            <td><input type="text" class="form-control btn-sm" [(ngModel)]="tenure.tenure"></td>
-            <td><input type="text" class="form-control btn-sm" [(ngModel)]="tenure.year"></td>
-            <td><input type="text" class="form-control btn-sm" [(ngModel)]="tenure.month"></td>
-            <td><input type="text" class="form-control btn-sm" [(ngModel)]="tenure.amount"></td>
             <td>
-                <button type="submit" class="btn btn-sm btn-primary" (click)="save()">Submit</button>
+              <select type="text" class="form-control btn-sm" [(ngModel)]="tenure.tenure">
+                <option *ngFor="let t of tenures" [value]="t">{{t}}</option>
+              </select>
+            </td>
+            <td>
+              <select type="text" class="form-control btn-sm" [(ngModel)]="tenure.year">
+                <option *ngFor="let t of years" [value]="t">{{t}}</option>
+              </select>
+            </td>
+            <td>
+            <select type="text" class="form-control btn-sm" [(ngModel)]="tenure.month">
+                <option *ngFor="let t of months" [value]="t">{{t}}</option>
+              </select>
+            </td>
+            <td><input type="text" class="form-control" [(ngModel)]="tenure.amount"></td>
+            <td>
+                <button type="submit" class="btn btn-primary" (click)="save()">Submit</button>
             </td>
           </tr>
         </table>
       </div>
     </div>
   </div>
-  <div class="col-sm-12 col-md-8 col-lg-7" *ngIf="maints">
+  <div class="col-sm-12 col-md-8 col-lg-7">
     <div class="card">
       <div class="card-body">
+        <table>
+          <tr>
+            <th>Tenure</th>
+            <th>Date</th>
+          </tr>
+          <tr>
+            <td>
+              <select type="text" class="form-control btn-sm" [(ngModel)]="selTenure" (change)="loadDates();">
+                <option *ngFor="let t of tenures" [value]="t">{{t}}</option>
+              </select>
+            </td>
+            <td><select type="text" class="form-control btn-sm" [(ngModel)]="selTenureId"  (change)="getMaint();" >
+                <option *ngFor="let ten of tenureRecords" [value]="ten._id" >{{ten.month}}-{{ten.year}}</option>
+              </select></td>
+          </tr>
+        </table>
         <h5 class="card-title">List of maints : Maintenance collected so far : {{total}}</h5>
-        <input class="form-control" type="text" name="search" [(ngModel)]="filter">
         <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">Flat No</th>
-                <th scope="col">Given on </th>
+                <th scope="col">Status </th>
                 <th scope="col">Amount</th>
                 <th scope="col">Comment</th>
                 <th scope="col">option</th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let maint of pagedItems | filter:filter; let i = index">
+            <tbody *ngIf="maints">
+              <tr *ngFor="let maint of maints.details">
                 <th scope="row">{{maint.flatNumber}}</th>
-                <td>{{maint.date | date:'dd-MM-yyyy'}}</td>
+                <td>
+                  {{maint.status}}&nbsp;  
+                  <i *ngIf="maint.status==='PAID'" class="fa fa-check-circle" style="color:green"></i>
+                </td>
                 <td>{{maint.amount}}</td>
                 <td>{{maint.comment}}</td>
                 <td>
-                  <button class="btn btn-sm btn-danger" (click)="delete(maint._id)">
-                    <i class="fa fa-trash"></i>
+                  <button class="btn btn-sm btn-secondary" 
+                  data-toggle="modal" 
+                  data-target="#approveMaint" (click)="update(maints._id,maint)">
+                    <i class="fa fa-cogs"></i>
                   </button>
                 </td>
               </tr>
             </tbody>
           </table>
-          <ul class="pagination">
-            <li *ngFor="let page of pager.pages" class="page-item" [ngClass]="{active:pager.currentPage === page}">
-              <a class="page-link" (click)="setPage(page)">{{page}}</a>
-            </li>
-          </ul>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="approveMaint" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <h3>{{selmaintDetail.flatNumber}}</h3>
+         <small>
+           Updated On {{selmaintDetail.updatedDate|date:'dd/MM/yyyy'}},
+           Created On {{selmaintDetail.createdDate|date:'dd/MM/yyyy'}},
+         </small>
+         <div class="form-group">
+         <label>Status</label>
+          <select type="text" class="form-control btn-sm" [(ngModel)]="selmaintDetail.status">
+             <option value="PAID">PAID</option>
+             <option value="PENDING">PENDING</option>
+          </select>
+         </div>
+         <div class="form-group">
+         <label>Comments Please</label>
+         <textarea class="form-control" rows="3" [(ngModel)]="selmaintDetail.comment"></textarea>
+         </div>
+
+      </div>
+      <div class="modal-footer">
+        <small>Tenure Id {{maintId}}, Flat Id: {{selmaintDetail._id}}</small>&nbsp;
+        <button type="button" class="btn btn-primary btn-sm" (click)="approve(maintId,selmaintDetail._id)">Save changes</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

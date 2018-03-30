@@ -9,7 +9,6 @@ var config=require('../config');
 router.get('/', function (req, res, next) {
   res.render("login", { error: false, errorMessage: "" });
 });
-
 router.post('/login', function (req, res, next) {
   console.log(req.body.userId);
   User.findOne({ "name": req.body.userId }, function (err, user) {

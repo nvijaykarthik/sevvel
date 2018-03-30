@@ -29,23 +29,68 @@
               <dd class="col-sm-5" [style.color]="monthlySummary.maintenanceCollection_Month<0?'red':'#000099'">{{monthlySummary.maintenanceCollection_Month| currency:'INR'}}</dd>
               <dt class="col-sm-7">Expence Made</dt>
               <dd class="col-sm-5" [style.color]="monthlySummary.expenditure_Month<0?'red':'#000099'">{{monthlySummary.expenditure_Month| currency:'INR'}}</dd>
+              <dt class="col-sm-7">Pending Payment</dt>
+              <dd class="col-sm-5" [style.color]="monthlySummary.pending>0?'red':'#000099'">{{monthlySummary.pending| currency:'INR'}}</dd>
+
               <dt class="col-sm-7">Available Balance</dt>
               <dd class="col-sm-5" [style.color]="monthlySummary.availableBalance_Month<0?'red':'#000099'">{{monthlySummary.availableBalance_Month| currency:'INR'}}</dd>
           </dl>
-         <!--  <h5 [style.color]="'#000099'">Year : {{year}}</h5>
+      </div>
+    </div>
+    <div class="card">
+        <div class="card-header bg-secondary">
+            Summary for Tenure {{tenure}}
+          </div>
+      <div class="card-body">
+        <div  class="input-group">
+            <input class="form-control" type="number" name="tenure" [(ngModel)]="tenure"/> 
+            <button class="btn btn-success" (click)="getByTenure()">GO</button>
+          </div>
           <dl class="row">
               <dt class="col-sm-7">Maintenance Collected</dt>
               <dd class="col-sm-5" [style.color]="monthlySummary.maintenanceCollection_Year<0?'red':'#000099'">{{monthlySummary.maintenanceCollection_Year| currency:'INR'}}</dd>
               <dt class="col-sm-7">Expence Made</dt>
               <dd class="col-sm-5" [style.color]="monthlySummary.expenditure_Year<0?'red':'#000099'">{{monthlySummary.expenditure_Year| currency:'INR'}}</dd>
+              <dt class="col-sm-7">Pending Payment</dt>
+              <dd class="col-sm-5" [style.color]="monthlySummary.pending_year>0?'red':'#000099'">{{monthlySummary.pending_year| currency:'INR'}}</dd>
               <dt class="col-sm-7">Available Balance</dt>
               <dd class="col-sm-5" [style.color]="monthlySummary.availableBalance_Year<0?'red':'#000099'">{{monthlySummary.availableBalance_Year| currency:'INR'}}</dd>
-          </dl> -->
-          <h5 [style.color]="'#000099'">Total Available Cash: {{monthlySummary.balance | currency:'INR'}}</h5>
+          </dl>
+          <h5 [style.color]="'#000099'">Total Available Cash: {{monthlySummary.availableBalance_Year | currency:'INR'}}</h5>
+          <div class="clearfix">
+            <h5 class="card-title float-left">View Pending Amount Details</h5>
+            <button class="btn btn-light float-right" type="button" data-toggle="collapse" data-target="#pendingDtls" 
+            aria-controls="pendingDtls"
+              aria-expanded="false" aria-label="Toggle pendingDtls">
+              <i class="fas fa-angle-down"></i>
+            </button>
+          </div>
+        <div id="pendingDtls" class="collapse navbar-collapse">
+          <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Flat No</th>
+                  <th scope="col">Month </th>
+                  <th scope="col">year </th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let maint of maintenanceDetail" >
+                  <td >{{maint.flatNumber}}</td>
+                  <td >{{maint.month}}</td>
+                  <td >{{maint.year}}</td>
+                  <td [ngClass]="maint.status=='PENDING'?'bg-danger':''" >{{maint.amount}}</td>
+                  <td>{{maint.comment}}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-12 col-md-4 col-lg-4">
+  <div class="col-sm-12 col-md-4 col-lg-4" *ngIf="maints">
     <div class="card">
         <div class="card-header bg-primary">
             Details of Maintenance  {{month}}-{{year}}
@@ -62,10 +107,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let maint of maintRepo" [ngClass]="maint.amount?'':'bg-danger'" >
-                  <td >{{maint.flatNo}}</td>
-                  <td nowrap>{{maint.date | date:'dd-MMM'}}</td>
-                  <td>{{maint.amount}}</td>
+                <tr *ngFor="let maint of maints.details" >
+                  <td >{{maint.flatNumber}}</td>
+                  <td nowrap>{{maint.updatedDate | date:'dd-MMM'}}</td>
+                  <td [ngClass]="maint.status=='PENDING'?'bg-danger':''" >{{maint.amount}}</td>
                   <td>{{maint.comment}}</td>
                 </tr>
               </tbody>
@@ -74,7 +119,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-12 col-md-4 col-lg-4">
+  <div class="col-sm-12 col-md-4 col-lg-4" *ngIf="expens">
       <div class="card">
           <div class="card-header bg-info">
               Details of Expence  {{month}}-{{year}}

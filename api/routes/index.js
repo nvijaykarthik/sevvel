@@ -24,10 +24,12 @@ router.put("/maintenance/:year/:month/:tenure/:amount",maintenances.createMainte
 
 router.post('/expence', expences.addAExpen);
 router.get('/expence', expences.getAllExpen);
+router.get("/expence/tenure/:tenure",expences.getExpenByTenure);
 router.get('/expence/:year/:month',expences.getExpenByMonth);
 router.put('/expence', expences.updateExpen);
 router.delete("/expence/:_id",expences.deleteExpence);
 router.get('/totalCash',common.getTotalCashInHand);
+
 //router.get('/totalCashByTenture/:year/:month',common.getMaintByTenture);
 
 module.exports = router;
