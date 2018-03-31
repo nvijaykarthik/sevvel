@@ -4,7 +4,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Maintenance, Tenure } from './Maintenance.domains';
+import { Maintenance, Tenure } from './maintenance.domains';
 import { Urls, APIURLS } from '../app.constants';
 
 const httpOptions = {
